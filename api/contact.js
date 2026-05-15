@@ -36,15 +36,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'Email no válido.' });
     }
 
-    const ownerEmail = process.env.OWNER_EMAIL || 'praticas@guadalweb.com';
-    const fromEmail = process.env.FROM_EMAIL;
-
-    if (!fromEmail) {
-      return res.status(500).json({
-        success: false,
-        error: 'Falta la variable de entorno FROM_EMAIL con un remitente verificado en SendGrid.',
-      });
-    }
+    const ownerEmail = process.env.OWNER_EMAIL || 'sergiomartinrodriguez99@outlook.es';
+    const fromEmail = process.env.FROM_EMAIL || 'sergiomartinrodriguez99@outlook.es';
 
     const ownerMsg = {
       to: ownerEmail,

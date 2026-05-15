@@ -23,7 +23,7 @@ Este guía te ayudará a configurar el envío de emails del formulario de presup
 1. En el dashboard de SendGrid, ve a **Settings** → **Sender Authentication**
 2. Haz clic en **Verify a Single Sender** (si es la primera vez)
 3. Rellena los datos con tu información:
-   - Email: usa un remitente que luego pondrás en `FROM_EMAIL`
+   - Email: `sergiomartinrodriguez99@outlook.es`
    - From Name: `Burgos Reformas Integrales`
 4. Se te enviará un email de confirmación; **confirma el enlace**
 5. Una vez confirmado, ya puedes usar este email como remitente
@@ -39,7 +39,7 @@ Este guía te ayudará a configurar el envío de emails del formulario de presup
    |----------|-------|
    | `SENDGRID_API_KEY` | Tu API Key de SendGrid (paso 2) |
    | `OWNER_EMAIL` | `sergiomartinrodriguez99@outlook.es` |
-   | `FROM_EMAIL` | Tu remitente verificado en SendGrid |
+   | `FROM_EMAIL` | `sergiomartinrodriguez99@outlook.es` |
 
 5. Asegúrate de que las variables estén habilitadas para **Production** y **Preview**
 6. Haz clic en **Save**
@@ -70,7 +70,7 @@ Si quieres probar en tu máquina local antes de desplegar:
    ```
    SENDGRID_API_KEY=tu_api_key_aqui
    OWNER_EMAIL=sergiomartinrodriguez99@outlook.es
-   FROM_EMAIL=tu_remitente_verificado@tudominio.com
+   FROM_EMAIL=sergiomartinrodriguez99@outlook.es
    ```
 
 3. Instala las dependencias:
