@@ -1,8 +1,6 @@
-const sgMail = require('@sendgrid/mail');
+import sgMail from '@sendgrid/mail';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,6 +17,13 @@ module.exports = async (req, res) => {
   }
 
   try {
+    const sendgridApiKey = process.env.SENDGRID_API_KEY;
+    if (!sendgridApiKey) {
+      return res.status(500).json({ success: false, error: 'Falta la variable de entorno SENDGRID_API_KEY.' });
+    }
+
+    sgMail.setApiKey(sendgridApiKey);
+
     const { name, phone, email, projectType, description } = req.body || {};
 
     if (!name || !phone || !email || !projectType) {
@@ -54,4 +59,4 @@ module.exports = async (req, res) => {
     console.error('SendGrid error:', err);
     res.status(500).json({ success: false, error: 'Error al enviar los correos. ' + (err.message || '') });
   }
-};
+}
