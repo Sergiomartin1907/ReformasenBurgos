@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-open-sans: "Open Sans", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  
+  --color-brand-dark: #1A3F5C;
+  --color-brand-accent: #E89F28;
+  --color-brand-light: #F4F1EA;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+}

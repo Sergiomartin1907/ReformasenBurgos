@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://carlosv161.sg-host.com/sitemap.xml
