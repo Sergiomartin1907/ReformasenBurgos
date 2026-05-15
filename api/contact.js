@@ -37,24 +37,24 @@ export default async function handler(req, res) {
     }
 
     const ownerEmail = process.env.OWNER_EMAIL || 'praticas@guadalweb.com';
-    const fromEmail = process.env.FROM_EMAIL || ownerEmail;
+    const fromEmail = process.env.FROM_EMAIL;
+
+    if (!fromEmail) {
+      return res.status(500).json({
+        success: false,
+        error: 'Falta la variable de entorno FROM_EMAIL con un remitente verificado en SendGrid.',
+      });
+    }
 
     const ownerMsg = {
       to: ownerEmail,
       from: fromEmail,
       subject: `Nuevo Presupuesto Web - ${name}`,
+      replyTo: email,
       text: `Has recibido una nueva solicitud de presupuesto desde la web:\n\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nTipo de Obra: ${projectType}\n\nDescripción del Proyecto:\n${description || ''}`
     };
 
-    const userMsg = {
-      to: email,
-      from: fromEmail,
-      subject: 'Confirmación de recepción - Burgos Reformas Integrales',
-      text: `Hola ${name},\n\nHemos recibido su solicitud de presupuesto. Nos pondremos en contacto con usted lo antes posible.\n\nResumen de su solicitud:\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nTipo de Obra: ${projectType}\n\nDescripción:\n${description || ''}\n\nSaludos,\nBurgos Reformas Integrales`
-    };
-
-    // Send both emails
-    await sgMail.send([ownerMsg, userMsg]);
+    await sgMail.send(ownerMsg);
     res.status(200).json({ success: true, message: 'Emails enviados correctamente.' });
   } catch (err) {
     console.error('SendGrid error:', err);
