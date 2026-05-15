@@ -58,6 +58,14 @@ export default async function handler(req, res) {
     res.status(200).json({ success: true, message: 'Emails enviados correctamente.' });
   } catch (err) {
     console.error('SendGrid error:', err);
-    res.status(500).json({ success: false, error: 'Error al enviar los correos. ' + (err.message || '') });
+    const sendgridErrors = err?.response?.body?.errors;
+    const sendgridMessage = Array.isArray(sendgridErrors) && sendgridErrors.length > 0
+      ? sendgridErrors.map((item) => item.message).filter(Boolean).join(' | ')
+      : err?.response?.body?.message || err.message || 'Error desconocido';
+
+    res.status(500).json({
+      success: false,
+      error: `Error al enviar los correos. ${sendgridMessage}`,
+    });
   }
 }
