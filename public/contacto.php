@@ -50,12 +50,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_headers .= "Reply-To: $email\r\n";
     $email_headers .= "X-Mailer: PHP/".phpversion();
 
-    if (mail($recipient, $subject, $email_content, $email_headers)) {
+    // Enviar al destinatario (propietario del sitio)
+    $sentToOwner = mail($recipient, $subject, $email_content, $email_headers);
+
+    // Enviar correo de confirmación al usuario que rellenó el formulario
+    $userSubject = "Confirmación de recepción - Burgos Reformas Integrales";
+    $userContent = "Hola $name,\n\n";
+    $userContent .= "Hemos recibido su solicitud de presupuesto. Estos son los datos que nos ha facilitado:\n\n";
+    $userContent .= "Nombre: $name\n";
+    $userContent .= "Teléfono: $phone\n";
+    $userContent .= "Email: $email\n";
+    $userContent .= "Tipo de Obra: $projectType\n\n";
+    $userContent .= "Descripción del Proyecto:\n$description\n\n";
+    $userContent .= "Nos pondremos en contacto con usted lo antes posible.\n\nSaludos,\nBurgos Reformas Integrales";
+
+    // Cabeceras para el email al usuario (From debe ser el propietario para evitar rechazo)
+    $userHeaders = "From: " . $recipient . "\r\n";
+    $userHeaders .= "Reply-To: " . $recipient . "\r\n";
+    $userHeaders .= "X-Mailer: PHP/".phpversion();
+
+    $sentToUser = false;
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $sentToUser = mail($email, $userSubject, $userContent, $userHeaders);
+    }
+
+    if ($sentToOwner) {
         http_response_code(200);
-        echo json_encode(['success' => true, 'message' => 'Mensaje enviado correctamente.']);
+        $msg = 'Mensaje enviado correctamente.';
+        if (!$sentToUser) {
+            $msg .= ' No se pudo enviar la confirmación al email del usuario.';
+        }
+        echo json_encode(['success' => true, 'message' => $msg]);
     } else {
         http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'No se pudo enviar el email. Verifica la configuración de correo de tu servidor.']);
+        echo json_encode(['success' => false, 'error' => 'No se pudo enviar el email al propietario. Verifica la configuración de correo de tu servidor.']);
     }
 } else {
     http_response_code(405);

@@ -1316,7 +1316,7 @@ const PresupuestosPage = ({ setCurrentPage }: { setCurrentPage: (page: string) =
     setStatus('submitting');
     
     try {
-      const response = await fetch('./contacto.php', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
