@@ -23,7 +23,7 @@ Este guía te ayudará a configurar el envío de emails del formulario de presup
 1. En el dashboard de SendGrid, ve a **Settings** → **Sender Authentication**
 2. Haz clic en **Verify a Single Sender** (si es la primera vez)
 3. Rellena los datos con tu información:
-   - Email: `sergiomartinrodriguez99@outlook.es` (o el que prefieras)
+   - Email: usa un remitente que luego pondrás en `FROM_EMAIL`
    - From Name: `Burgos Reformas Integrales`
 4. Se te enviará un email de confirmación; **confirma el enlace**
 5. Una vez confirmado, ya puedes usar este email como remitente
@@ -39,8 +39,9 @@ Este guía te ayudará a configurar el envío de emails del formulario de presup
    |----------|-------|
    | `SENDGRID_API_KEY` | Tu API Key de SendGrid (paso 2) |
    | `OWNER_EMAIL` | `sergiomartinrodriguez99@outlook.es` |
+   | `FROM_EMAIL` | Tu remitente verificado en SendGrid |
 
-5. Asegúrate de que ambas estén habilitadas para **Production** y **Preview**
+5. Asegúrate de que las variables estén habilitadas para **Production** y **Preview**
 6. Haz clic en **Save**
 
 ## 5. Desplegar los Cambios
@@ -69,6 +70,7 @@ Si quieres probar en tu máquina local antes de desplegar:
    ```
    SENDGRID_API_KEY=tu_api_key_aqui
    OWNER_EMAIL=sergiomartinrodriguez99@outlook.es
+   FROM_EMAIL=tu_remitente_verificado@tudominio.com
    ```
 
 3. Instala las dependencias:
@@ -97,7 +99,7 @@ Si quieres probar en tu máquina local antes de desplegar:
 ## Solución de Problemas
 
 ### No recibo los emails
-- ✓ Verifica que confirmaste el email remitente en SendGrid
+- ✓ Verifica que confirmaste el email remitente en SendGrid y que está puesto en `FROM_EMAIL`
 - ✓ Revisa la carpeta de SPAM
 - ✓ Comprueba que las variables de entorno estén configuradas en Vercel
 - ✓ Revisa los logs de Vercel: Settings → Functions → Logs

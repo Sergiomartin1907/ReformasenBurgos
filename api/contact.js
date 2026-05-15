@@ -37,17 +37,18 @@ export default async function handler(req, res) {
     }
 
     const ownerEmail = process.env.OWNER_EMAIL || 'praticas@guadalweb.com';
+    const fromEmail = process.env.FROM_EMAIL || ownerEmail;
 
     const ownerMsg = {
       to: ownerEmail,
-      from: ownerEmail,
+      from: fromEmail,
       subject: `Nuevo Presupuesto Web - ${name}`,
       text: `Has recibido una nueva solicitud de presupuesto desde la web:\n\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nTipo de Obra: ${projectType}\n\nDescripción del Proyecto:\n${description || ''}`
     };
 
     const userMsg = {
       to: email,
-      from: ownerEmail,
+      from: fromEmail,
       subject: 'Confirmación de recepción - Burgos Reformas Integrales',
       text: `Hola ${name},\n\nHemos recibido su solicitud de presupuesto. Nos pondremos en contacto con usted lo antes posible.\n\nResumen de su solicitud:\nNombre: ${name}\nTeléfono: ${phone}\nEmail: ${email}\nTipo de Obra: ${projectType}\n\nDescripción:\n${description || ''}\n\nSaludos,\nBurgos Reformas Integrales`
     };
